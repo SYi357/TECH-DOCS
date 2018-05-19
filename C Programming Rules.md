@@ -1,4 +1,4 @@
-## Programming Rules
+## C Programming Rules
 
 > A global variable must always start with a capital.
 >
