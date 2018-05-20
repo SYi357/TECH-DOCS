@@ -1,3 +1,5 @@
+
+
 # Makefile quick tutorial
 
 A Makefile is __a collection of rules__. Each rule is a recipe to do a specific thing, sort of like a grunt task or an npm ``package.json`` script.
@@ -136,4 +138,15 @@ badkitty:
 ***
 
 You'd want to [See more](https://gist.github.com/isaacs/62a2d1825d04437c6f08).
+
+***
+
+| Dollar Sign | Descriptions                            |
+| ----------- | --------------------------------------- |
+| ``$``       | reference a make variable using ``$``   |
+| ``$$``      | reference a shell variable using ``$$`` |
+
+[C Makefile cheatsheet](www.csheeet.com/en/latest/notes/c_make.html)
+
+---
 
