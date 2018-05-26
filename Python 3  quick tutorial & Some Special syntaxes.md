@@ -470,3 +470,486 @@ class TransitionError(Error):
         self.message = message
 ```
 
+---
+
+__Classes__
+
+Class definitions, like function definitions(`def` statements) must be executed before they have any effect. (You could conceivably place a class definition in a branch of an `if` statement. or inside a function.)
+
+When a class defines an `__init__()` method, class instantiation automatically invokes `__init__()` for the newly-created class instance. Of course, the `__init_()`method may have arguments for greater flexibility.
+
+```python
+>>> class Complex:
+	def __init__(self, realpart, imagpart):
+		self.r = realpart
+		self.i = imagpart
+
+		
+>>> x = Complex(3.0, -4.5)
+>>> x.r, x.i
+(3.0, -4.5)
+```
+
+```python
+class MyClass:
+    """A simple example calss"""
+    i = 12345
+    
+    def f(self):
+        return "Hello World!"
+```
+
+Valid method names of an instance object depend on its class. By definition, all attributes of a class that are function objects define corresponding methods of its instances. `x.f` is a valid method reference, since `MyClass.f` is a function, but `x.i` is not, since `MyClass.i` is not. But `x.f` is not the same thing as `MyClass.f` -- it is a method object, not a function object.
+
+In the `MyClass` example, this will return the String `Hello World!`. However, it is not necessary to call a method right away:`x.f` is a method object, and can be stored away and called at a later time.
+
+```python
+>>> xf = x.f
+>>> print(xf)
+Hello World!
+```
+
+Python raises an exception when a function that requires an argument is called without any - even if the argument is not actually used...
+
+In general, calling a method with a list of `n` arguments is equivalent to calling the corresponding function with an argument list that is created by inserting the method's instance object before the first argument.
+
+This shared data can have possibly surprising effects with involving [mutable](../glossary.html#term-mutable) objects such as lists and  dictionaries. For example, the *tricks* list in the following code should  not be used as a class variable because just a single list would be shared by  all *Dog* instances: 
+
+```python
+class Dog:
+    
+    tricks = []          # mistaken use of a class variables
+    
+    def __init__(self, name):
+        self.name = name
+        
+    def add_trick(self, trick):
+        self.tricks.append(trick)
+        
+>>> d = Dog('Fido')
+>>> e = Dog('Buddy')
+>>> d.add_trick('roll over')
+>>> e.add_trick('play dead')
+>>> d.tricks                # unexpectedly shared by all dogs
+['roll over', 'play dead']
+```
+
+Correct design of the class should use an instance variable instead:
+
+```python
+class Dog:
+    
+    def __init__(self, name):
+        self.name = name
+        self.tricks = []
+        
+    def add_trick(self, trick):
+        self.tricks.append(trick)
+```
+
+Often, the first argument of a method is called `self`. This is nothing more than a convention: the name `self` has absolutely no special meaning to Python.
+
+When the class object is constructed, the base class is remembered. This is used for resolving attribute references: if a requested attribute is not found in the class, the search proceeds to look in the base class. The rule is applied recursively if the base class itself is derived from some other class.
+
+__Private Variables__
+
+A name prefixed with an underscore (e.g. `_spam`) should be treat as a non-public part of the API (whether it is a function, a method or a data member). It should be considered an implementation detail and subject to change without notice.
+
+---
+
+---
+
+---
+
+__Python Identifiers__
+
+Python is a case sensitive programming language.
+
+Here are naming conventions for Python identifiers:
+
+> * Class names start with an uppercase letter. All other identifiers start with a lowercase letter.
+> * Starting an identifier with a single leading underscore indicates that the identifier is private.
+> * Starting an identifier with two leading underscores indicates a strong private identifier.
+> * If the identifier also ends with two trailing underscores, the identifier is a language-defined special name.
+
+Statements in Python typically end with a new line. Python, however, allows the use of the line continuation character (\\) to denote that the line should continue.
+
+```python
+total = item_one + \
+    	item_two + \
+    	item_therr
+```
+
+Python has five standard data type:
+
+> - __Numbers__ -- _Number objects are created when you assign a value to them._
+>   - int (signed integers)
+>   - float (floating point real values)
+>   - complex (complex numbers)
+> - __String__ -- _Subsets of strings can be taken using the slice operator `[]` and `[:]`with indexed starting at 0 in  the beginning of the string and working their way from -1 to the end. The plus `+` sign is the string concatenation operator and the asterisk `*` is the repetition operator._
+> - __List__ -- _A list contains items separated by commas and enclosed within square brackets `[]`. All the items belonging to a list can be of different data type._ 
+> - __Tuple__ -- _A tuple consists of a number of values separated by commas. Unlike lists, however, tuples are enclosed within parenthesis. Lists are enclosed in brackets `[]` and their elements and size can be changed, while tuples are enclosed in parentheses `()` and cannot be updated. Tuples can be thought of as __read-only__ list._
+> - __Dictionary__ -- _Python's dictionaries are kind of hash-table type. A dictionary key can be almost any Python type, but are usually numbers or strings. Values, on the other hand, can be any arbitrary Python object. Dictionaries are enclosed by curly braces `{}`. Dictionaries have no concept of order among the elements. They are simply unordered._
+
+To convert between types, you simply use the type-names as a function.
+
+Python's built-in function `bin()` can be used to obtain binary representation of an integer number.
+
+---
+
+To see the list of all modules:
+
+```python
+>>> help('modules')
+
+Please wait a moment while I gather a list of all available modules...
+
+__future__          audioop             idle                scrolledlist
+__main__            autocomplete        idle_test           search
+_ast                autocomplete_w      idlelib             searchbase
+_asyncio            autoexpand          imaplib             searchengine
+_bisect             base64              imghdr              secrets
+_blake2             bdb                 imp                 select
+_bootlocale         binascii            importlib           selectors
+_bz2                binhex              inspect             setuptools
+_codecs             bisect              io                  shelve
+_codecs_cn          browser             iomenu              shlex
+_codecs_hk          builtins            ipaddress           shutil
+_codecs_iso2022     bz2                 itertools           signal
+_codecs_jp          cProfile            json                site
+_codecs_kr          calendar            keyword             smtpd
+_codecs_tw          calltip_w           lib2to3             smtplib
+_collections        calltips            linecache           sndhdr
+_collections_abc    cgi                 locale              socket
+_compat_pickle      cgitb               logging             socketserver
+_compression        chunk               lzma                sqlite3
+_csv                cmath               macosx              sre_compile
+_ctypes             cmd                 macpath             sre_constants
+_ctypes_test        code                macurl2path         sre_parse
+_datetime           codecontext         mailbox             ssl
+_decimal            codecs              mailcap             stackviewer
+_distutils_findvs   codeop              mainmenu            stat
+_dummy_thread       collections         marshal             statistics
+_elementtree        colorizer           math                statusbar
+_functools          colorsys            mimetypes           string
+_hashlib            compileall          mmap                stringprep
+_heapq              concurrent          modulefinder        struct
+_imp                config              msilib              subprocess
+_io                 config_key          msvcrt              sunau
+_json               configdialog        multicall           symbol
+_locale             configparser        multiprocessing     symtable
+_lsprof             contextlib          netrc               sys
+_lzma               copy                nntplib             sysconfig
+_markupbase         copyreg             nt                  tabnanny
+_md5                crypt               ntpath              tarfile
+_msi                csv                 nturl2path          telnetlib
+_multibytecodec     ctypes              numbers             tempfile
+_multiprocessing    curses              opcode              test
+_opcode             datetime            operator            textview
+_operator           dbm                 optparse            textwrap
+_osx_support        debugger            os                  this
+_overlapped         debugger_r          outwin              threading
+_pickle             debugobj            paragraph           time
+_pyclbr             debugobj_r          parenmatch          timeit
+_pydecimal          decimal             parser              tkinter
+_pyio               delegator           pathbrowser         token
+_random             difflib             pathlib             tokenize
+_sha1               dis                 pdb                 tooltip
+_sha256             distutils           percolator          trace
+_sha3               doctest             pickle              traceback
+_sha512             dummy_threading     pickletools         tracemalloc
+_signal             dynoption           pip                 tree
+_sitebuiltins       easy_install        pipes               tty
+_socket             editor              pkg_resources       turtle
+_sqlite3            email               pkgutil             turtledemo
+_sre                encodings           platform            types
+_ssl                ensurepip           plistlib            typing
+_stat               enum                poplib              undo
+_string             errno               posixpath           unicodedata
+_strptime           faulthandler        pprint              unittest
+_struct             filecmp             profile             urllib
+_symtable           fileinput           pstats              uu
+_testbuffer         filelist            pty                 uuid
+_testcapi           fnmatch             py_compile          venv
+_testconsole        formatter           pyclbr              warnings
+_testimportmultiple fractions           pydoc               wave
+_testmultiphase     ftplib              pydoc_data          weakref
+_thread             functools           pyexpat             webbrowser
+_threading_local    gc                  pyparse             windows
+_tkinter            genericpath         pyshell             winreg
+_tracemalloc        getopt              query               winsound
+_warnings           getpass             queue               wsgiref
+_weakref            gettext             quopri              xdrlib
+_weakrefset         glob                random              xml
+_winapi             grep                re                  xmlrpc
+abc                 gzip                redirector          xxsubtype
+aifc                hashlib             replace             zipapp
+antigravity         heapq               reprlib             zipfile
+argparse            help                rlcompleter         zipimport
+array               help_about          rpc                 zlib
+ast                 history             rstrip              zoomheight
+asynchat            hmac                run                 zzdummy
+asyncio             html                runpy               
+asyncore            http                runscript           
+atexit              hyperparser         sched               
+
+Enter any module name to get more help.  Or, type "modules spam" to search
+for modules whose name or summary contain the string "spam".
+```
+
+---
+
+__String__
+
+Python does not support a character type; these are treated as strings of length one, thus also considered a substring.
+
+---
+
+__Tuples__
+
+To write a tuple containing a single value you have to include  a comma, even though there is only one value
+
+```python
+>>> tup = (1,)
+(1,)
+```
+
+Tuples are immutable, which means you cannot update or change the values of tuple elements. You are able to tale portions of the exiting tuples to create new tuples as the following example demonstrates.
+
+No enclosing Delimiters is any set of multiple objects, comm-separated, written with out identifying symbols, i.e., brackets for lists, parentheses for tuples, etc.
+
+More than one entry per key is not allowed. This means no duplicate key is allowed. When duplicate keys are encountered during assignment, the last assignment wins.
+
+```python
+>>> dict1 = {"Name":"Alice", "Name":"Mary"}
+>>> dict1
+{'Name': 'Mary'}
+```
+
+Keys must be immutable. This means you can use strings, numbers or tuples as dictionary keys but something like ['key'] is not allowed.
+
+---
+
+__The Anonymous Functions__
+
+You can use the __lambda__ keyword to create small anonymous functions.
+
+> - Lambda forms can take any number of arguments but return just one value in the form of an expression. They cannot contain commands or multiple expressions.
+> - An anonymous function cannot be a direct call to print because lambda requires an expression.
+> - Lambda functions have their own local namespace and cannot access variables other than those in their parameter list and those in the global namespace.
+> - Although it appears that lambdas are one-line version of a function, they are not equivalent to inline statements in C or C++, whose purpose is to stack allocation by passing function, during invocation for performance reasons.
+
+The syntax of __lambda__ functions contains only a single statement, which is as follows
+
+```python
+lambda [arg1 [,arg2, ...... argn]]: expression
+```
+
+```python
+>>> sum = lambda arg1, arg2 : arg1 + arg2
+>>> sum (1, 2)
+3
+>>> sum ("Py", "thon")
+"Python"
+```
+
+---
+
+__The assert Statement__
+
+When it encounters an assert statement, Python evaluates the accompanying expression, which is hopefully true. If the expression is false, Python raises an `AssertionErro` exception.
+
+The syntax for assert is
+
+```python
+assert Expression[, Arguments]
+```
+
+If the assertion fails, Python uses `ArgumentExpression` as the argument for the `AssertionError`. `AssertionError` exceptions can be caught and handled like any other exception, using the try-except statement. If they are not handled, they will terminate the program and produce a traceback.
+
+```
+def test(n):
+	assert n >= 0, "The `n` must not be negtive."
+	pass
+```
+
+---
+
+Here are few important points about the above-mentioned syntax:
+
+> - A single `try` statement can have multiple except statements. This is useful when the try block contains statements that may throw different types of exceptions.
+> - You can also provide a generic except clause, which handles any exception.
+> - After the except clause(s), you can include an `else-clause`. The code in the `else-block` executes if the code in the `try`: block does not raise an exception.
+> - The `else-block` is a good place for code that does not need the `try`: block's protection.
+
+
+
+Examples:
+
+```python
+try:
+    # You do your operations here.
+    
+except:
+    # If there is any exception, then execute this block.
+    
+else:
+    # If there is no exception then execute this block.
+```
+
+```python
+try:
+    # You do your operations here.
+    ......
+    # Due to any exception, this may be skipped.
+finally:
+    # This would always be executed.
+```
+
+__Note__: You can provide `except` clause(s), or a `finally` clause, but not both. You can not use `else` clause as well along with a `finally` clause.
+
+An exception can have an _argument_, which is a value that gives additional information about the problem.
+
+```python
+try:
+    # Do your operations here.
+except ExceptionType as Argument:
+    # You can print value of Argument here...
+```
+
+If you are trapping multiple exceptions, you can have a variable follow the tuple of the exception. The variable can receive a single value or multiple values in the form of a tuple. This tuple usually contains the error string, the error number, and an error location.
+
+You can raise exceptions in several ways by using the `raise` statement.
+
+```python
+raise [Exception [, args [, traceback]]]
+```
+
+Here, _Exception_ is the type of exception (for example, NameError) and _argument_ is value for the exception argument. The argument is optional; if not supplied, the exception argument is __None__.
+
+Python also allows you to create your own exceptions by deriving classed from the standard built-in exceptions.
+
+```python
+class NetworkError(RuntimeError):
+    """"""
+    
+    def __init__(self, args):
+        self.args = args
+```
+
+Usage:
+
+```python
+try:
+    rasie NetworkError("Bad hostname")
+except NetworkError as err:
+    print(err.args)
+```
+
+---
+
+__Overloading Operators__
+
+You could, however, define the *\_\_add__* method  in your class, and then the plus operator would behave as per expectation.
+
+___You need to name attributes with a double underscore prefix, and those attributes the will not be directly visible to outsides.___
+
+> Python protects those members by internally changing the name to include the class name. You can access such attributes as `object._className__attrName`.
+
+---
+
+__Regular Expressions__
+
+The __re__ module raises the exception __re.error__ if an error occurs while compiling or using a regular expression. To avoid any confusion while dealing with regular expressions, we would use Raw String as __r'expression'__.
+
+Basic patterns that match single chars:
+
+| Expression   | Matches                                                      |
+| ------------ | ------------------------------------------------------------ |
+| a, X, 9, <   | ordinary characters just match themselves exactly.           |
+| . (a period) | matches any single character except newline `\n`.            |
+| \w           | matches a "word" character: a letter or digit or under-bar `[a-zA-Z0-9_]`. |
+| \W           | matches any non-word character.                              |
+| \b           | boundary between word and non-word.                          |
+| \s           | matches a single whitespace character: space, newline, return, tab. |
+| \S           | matches any non-whitespace character.                        |
+| \t, \n, \r   | tab, newline, return.                                        |
+| \d           | decimal digit `[0-9]`.                                       |
+| ^            | matches start of the string.                                 |
+| $            | match the end of the string.                                 |
+| \            | inhibit the "specialness" of a character.                    |
+
+Compilation flags
+
+| Flag          | Meaning                                                      |
+| ------------- | ------------------------------------------------------------ |
+| A, ASCII      | Make several escapes like `\w, \b, \s,\d ` match only on ASCII characters with the respective property. |
+| S, DOTALL     | Make, match any character, including newlines.               |
+| I, IGNORECASE | Do case-insensitive matches.                                 |
+| L, LOCALE     | Do a locale-aware match.                                     |
+| M, MULTILINE  | Multi-line matching, affecting ^ and $.                      |
+| X, VERBOSE    | Enable verbose REs, which can be organized more cleanly and understandably. |
+
+`match` checks for a match only at the beginning of the string, while `search` checks for a match anywhere in the string:
+
+```python
+#!/usr/bin/python3
+import re
+
+line = "Cats are smarter than dogs";
+
+matchObj = re.match( r'dogs', line, re.M|re.I)
+if matchObj:
+   print ("match --> matchObj.group() : ", matchObj.group())
+else:
+   print ("No match!!")
+
+searchObj = re.search( r'dogs', line, re.M|re.I)
+if searchObj:
+   print ("search --> searchObj.group() : ", searchObj.group())
+else:
+   print ("Nothing found!!")
+```
+
+This will print:
+
+```python
+No match!!
+search --> searchObj.group() :  dogs
+```
+
+List of regular expression syntax in Python:
+
+| Parameter   | Description                                                | Parameter    | Description                                                 |
+| ----------- | ---------------------------------------------------------- | ------------ | ----------------------------------------------------------- |
+| ^           | beginning of line                                          | $            | end of line                                                 |
+| .           | any single character except newline                        | [...]        | any single character in brackets                            |
+| [^...]      | any single character not in brackets                       | `re`*        | 0 or more occurrences of preceding expression               |
+| `re`+       | 1 or more occurrences of preceding expression              | `re`?        | 0 or 1 occurrence of preceding expression                   |
+| `re`{n}     | n number of occurrences of preceding expression            | `re`{n,}     | n or more occurrences of preceding expression               |
+| `re`{n,m}   | least n and most n occurrences of preceding expression     | a\|b         | either a or b                                               |
+| (`re`)      | groups regular expressions and remembers matched text      | (?imx)       | toggles on i, m, or x options within a regular expression   |
+| (?-imx)     | toggles off i, m, or x options within a regular expression | (?:`re`)     | groups regular expressions without remembering matched text |
+| (?imx:`re`) | toggles on i, m, or x options within parentheses           | (?-imx:`re`) | toggles off i, m, or x options within parentheses           |
+| (?#...)     | comment                                                    | (?=`re`)     | specifies position using a pattern                          |
+| (?!`re`)    | specifies position using pattern negation                  | (?>`re`)     | independent pattern without backtracking                    |
+| \w          | word characters                                            | \W           | non-word characters                                         |
+| \s          | whitespace,`[\t\n\r\f]`                                    | \S           | non-whitespace                                              |
+| \d          | [0-9]                                                      | \D           | non-digits                                                  |
+| \A          | beginning of string                                        | \Z,\z        | end of string                                               |
+| \G          | point where last match finished                            | \b           | word boundaries                                             |
+| \B          | non-boundaries                                             | \n, \t, etc  | newline, carriage return, tabs, etc                         |
+| \1...\9     | nth grouped subexpression                                  | \10          |                                                             |
+
+---
+
+__CGI (Common Gateway Interface)__
+
+> CGI Architecture Diagram
+
+> ![cgiarch](https://www.tutorialspoint.com/python/images/cgiarch.gif)
+
+[>>> See More](https://www.tutorialspoint.com/python3/python_cgi_programming.htm)
+
+---
+
